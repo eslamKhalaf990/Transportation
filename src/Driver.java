@@ -11,7 +11,8 @@ public class Driver extends User implements DriverMethods{
     public static ArrayList <Driver> availableDrivers = new ArrayList<>();
     public ArrayList <Integer> rateList = new ArrayList<>();
 
-    public Driver(String username, String email, String password, String phoneNumber, String drivingLicence, String nationalID){
+    public Driver(String username, String email, String password, String phoneNumber,
+                  String drivingLicence, String nationalID){
         super(username, email, password, phoneNumber);
         this.drivingLicence = drivingLicence;
         this.nationalID = nationalID;

@@ -1,10 +1,16 @@
+import java.util.ArrayList;
+
 public abstract class User {
     private String username;
     private String phoneNumber;
     private String email;
     private String password;
-    public DriverMethods driverMethods;
-    public RiderMethods riderMethods;
+
+    public static ArrayList<User> usersList = new ArrayList<>();
+
+    public User(){
+
+    }
 
     public User(String username, String email, String password, String phoneNumber){
         this.username = username;
@@ -13,12 +19,47 @@ public abstract class User {
         this.phoneNumber = phoneNumber;
     }
 
-    public void setDriverMethods(DriverMethods driverMethods) {
-        this.driverMethods = driverMethods;
+    public static User checkIn(String email, String password){
+        User user = null;
+        for (int i = 0; i< getUsersList().size(); i++){
+            if (getUsersList().get(i).getEmail().equals(email)
+                    && getUsersList().get(i).getPassword().equals(password)){
+                    user =getUsersList().get(i);
+            }
+        }
+
+        return user;
     }
-    public void setRiderMethods(RiderMethods riderMethods) {
-        this.riderMethods = riderMethods;
+
+    public static void Register(User user){
+
+        if(user.getClass().getCanonicalName().equals("Driver")){
+            Admin.addToPendingList(user);
+        }
+        else{
+            boolean found = false;
+            for(int i = 0; i<User.usersList.size(); i++){
+                if (User.usersList.get(i).getEmail().equals(user.getEmail())){
+                    found = true;
+                    break;
+                }
+
+            }
+            if (!found){
+                User.usersList.add(user);
+            }
+            else {
+                System.out.println(user.getUsername()+", You Should Enter A Unique Email!");
+            }
+        }
     }
+
+    public static void setAdmin(Admin admin){
+        admin.setEmail("admin@gmail.com");
+        admin.setPassword("111");
+        usersList.add(admin);
+    }
+
     public void setPassword(String password) {
         this.password = password;
     }
@@ -42,6 +83,9 @@ public abstract class User {
     }
     public String getEmail() {
         return email;
+    }
+    public static ArrayList<User> getUsersList() {
+        return usersList;
     }
 
 }
